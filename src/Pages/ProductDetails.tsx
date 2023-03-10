@@ -12,14 +12,18 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate, useParams } from "react-router-dom";
 import NoLoginModal from "../Components/NoLoginModal";
 import ProductModal from "../Components/ProductModal";
-import { getEachAsyncProduct } from "../Redux/Slices/productsSlice/productsSlice";
+import { getTokenFromState } from "../Redux/Slices/authSlice/authSlice";
+import {
+  getEachAsyncProduct,
+  getSingleProductFromState,
+} from "../Redux/Slices/productsSlice/productsSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/store/store";
 
 function ProductDetails() {
   const [visible, setVisible] = useState(false);
   const { id } = useParams() as any;
-  const product = useAppSelector((state) => state.products.product);
-  const isAuth = useAppSelector((state) => state.auth.token);
+  const product = useAppSelector(getSingleProductFromState);
+  const isAuth = useAppSelector(getTokenFromState);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -8,10 +8,13 @@ import {
   Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { setLogout } from "../Redux/Slices/authSlice/authSlice";
+import {
+  getAuthUserFromState,
+  setLogout,
+} from "../Redux/Slices/authSlice/authSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/store/store";
 function Profile() {
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector(getAuthUserFromState);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

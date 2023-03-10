@@ -1,3 +1,4 @@
+import { RootState } from "./../../store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "./../../../types/interfaces";
 
@@ -35,6 +36,10 @@ const authSlice = createSlice({
     },
   },
 });
+
+export const getTokenFromState = (state: RootState) => state.auth.token;
+
+export const getAuthUserFromState = (state: RootState) => state.auth.user;
 
 export const { setLogout, setLogin, setUserInfo } = authSlice.actions;
 

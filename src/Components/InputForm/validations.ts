@@ -11,10 +11,13 @@ export const LoginFormSchema = yup.object().shape({
     .required("Password is required"),
 });
 
-export const RegistrationFromSchema = yup
+export const RegistrationFormSchema = yup
   .object()
   .shape({
     name: yup.string().required("Name is required"),
-    avatar: yup.string().required("Avatar is required"),
+    avatar: yup
+      .string()
+      .required("Avatar is required")
+      .url("Only url links are valid"),
   })
   .concat(LoginFormSchema);

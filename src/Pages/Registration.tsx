@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { authLogin } from "../API/AuthService";
 import { addNewUser } from "../API/UsersService";
 import InputRegForm from "../Components/InputForm/InputRegForm";
-import { RegistrationFromSchema } from "../Components/InputForm/validations";
+import { RegistrationFormSchema } from "../Components/InputForm/validations";
 import { setLogin } from "../Redux/Slices/authSlice/authSlice";
 import { useAppDispatch } from "../Redux/store/store";
 import { User } from "../types/interfaces";
@@ -19,7 +19,7 @@ function Registration() {
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useForm({ mode: "all", resolver: yupResolver(RegistrationFromSchema) });
+  } = useForm({ mode: "all", resolver: yupResolver(RegistrationFormSchema) });
 
   const addUser = async (values: User) => {
     try {

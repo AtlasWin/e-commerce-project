@@ -11,15 +11,19 @@ import {
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Error from "../Components/Common/Error";
-import Footer from "../Components/Common/Footer";
 import Loading from "../Components/Common/Loading";
-import { getAllAsyncCategories } from "../Redux/Slices/categoriesSlice/categoriesSlice";
+import {
+  getAllAsyncCategories,
+  getCategoriesFromState,
+  getCategoryErrorFromState,
+  getCategoryLoadingFromState,
+} from "../Redux/Slices/categoriesSlice/categoriesSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/store/store";
 
 function Categories() {
-  const categories = useAppSelector((state) => state.categories.categories);
-  const error = useAppSelector((state) => state.categories.error);
-  const loading = useAppSelector((state) => state.categories.loading);
+  const categories = useAppSelector(getCategoriesFromState);
+  const error = useAppSelector(getCategoryErrorFromState);
+  const loading = useAppSelector(getCategoryLoadingFromState);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

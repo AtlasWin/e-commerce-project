@@ -1,7 +1,7 @@
 import { SingleProduct } from "./../../../types/interfaces";
-import { RootState } from "./../../store/store";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Initial } from "../../../types/interfaces";
+import { RootState } from "../../store/store";
 
 const initialState: Initial = {
   cart: [],
@@ -22,14 +22,14 @@ const cartSlice = createSlice({
   },
 });
 
-export const totalCount = createSelector(
-  (state: RootState) => state.cart.cart,
-  (cart) => cart.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
+export const getCartFromState = (state: RootState) => state.cart.cart;
+
+export const totalCount = createSelector(getCartFromState, (cart) =>
+  cart.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
 );
 
-export const totalQuantity = createSelector(
-  (state: RootState) => state.cart.cart,
-  (cart) => cart.reduce((prev, curr) => prev + curr.quantity, 0)
+export const totalQuantity = createSelector(getCartFromState, (cart) =>
+  cart.reduce((prev, curr) => prev + curr.quantity, 0)
 );
 
 export const { addToCart, removeFromCart } = cartSlice.actions;

@@ -19,7 +19,6 @@ export const createNewAsyncUser = createAsyncThunk(
   async (data: User, { rejectWithValue }) => {
     try {
       const response = await addNewUser(data);
-      console.log("response", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

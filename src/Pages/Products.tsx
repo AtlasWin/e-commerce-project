@@ -2,6 +2,11 @@ import { useEffect, useRef } from "react";
 import { useObserver } from "../Hooks/useObserver";
 import {
   getAllAsyncProducts,
+  getPaginationFromState,
+  getProductErrorFromState,
+  getProductLoadingFromState,
+  getProductsFromState,
+  getTotalPagesFromState,
   setPage,
 } from "../Redux/Slices/productsSlice/productsSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/store/store";
@@ -10,13 +15,11 @@ import Error from "../Components/Common/Error";
 import Loading from "../Components/Common/Loading";
 
 function Products() {
-  const products = useAppSelector((state) => state.products.products);
-  const loading = useAppSelector((state) => state.products.loading);
-  const error = useAppSelector((state) => state.products.error);
-  const totalPages = useAppSelector((state) => state.products.totalPages);
-  const { offset, limit, page } = useAppSelector(
-    (state) => state.products.pagination
-  );
+  const products = useAppSelector(getProductsFromState);
+  const loading = useAppSelector(getProductLoadingFromState);
+  const error = useAppSelector(getProductErrorFromState);
+  const totalPages = useAppSelector(getTotalPagesFromState);
+  const { offset, limit, page } = useAppSelector(getPaginationFromState);
   const dispatch = useAppDispatch();
   const lastElement = useRef<HTMLDivElement | null>(null);
 

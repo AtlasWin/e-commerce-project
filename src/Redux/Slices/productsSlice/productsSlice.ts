@@ -1,3 +1,4 @@
+import { RootState } from "./../../store/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAllProducts, getSingleProduct } from "../../../API/ProductsService";
 import {
@@ -9,7 +10,7 @@ import {
 interface ProductsState {
   products: AllProducts[];
   product: SingleProduct;
-  loading: Boolean;
+  loading: boolean;
   error: string | any;
   totalPages: number;
   pagination: Pagination;
@@ -90,16 +91,19 @@ const productsSlice = createSlice({
     });
     builder.addCase(
       getAllAsyncProducts.fulfilled,
-      (state, { payload }: PayloadAction<any>) => {
+      (state, { payload }: PayloadAction<AllProducts[]>) => {
         state.loading = false;
         state.products = [...state.products, ...payload];
         state.pagination.limit = 10;
       }
     );
-    builder.addCase(getAllAsyncProducts.rejected, (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    });
+    builder.addCase(
+      getAllAsyncProducts.rejected,
+      (state, { payload }: PayloadAction<string | any>) => {
+        state.loading = false;
+        state.error = payload;
+      }
+    );
     builder.addCase(getEachAsyncProduct.pending, (state) => {
       state.loading = true;
     });
@@ -110,12 +114,33 @@ const productsSlice = createSlice({
         state.product = payload;
       }
     );
-    builder.addCase(getEachAsyncProduct.rejected, (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    });
+    builder.addCase(
+      getEachAsyncProduct.rejected,
+      (state, { payload }: PayloadAction<string | any>) => {
+        state.loading = false;
+        state.error = payload;
+      }
+    );
   },
 });
+
+export const getProductsFromState = (state: RootState) =>
+  state.products.products;
+
+export const getSingleProductFromState = (state: RootState) =>
+  state.products.product;
+
+export const getProductLoadingFromState = (state: RootState) =>
+  state.products.loading;
+
+export const getProductErrorFromState = (state: RootState) =>
+  state.products.error;
+
+export const getTotalPagesFromState = (state: RootState) =>
+  state.products.totalPages;
+
+export const getPaginationFromState = (state: RootState) =>
+  state.products.pagination;
 
 export const { setPage } = productsSlice.actions;
 

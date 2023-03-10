@@ -6,6 +6,9 @@ import List from "../Components/Common/List";
 import Loading from "../Components/Common/Loading";
 import {
   getAsyncCategoryProducts,
+  getCategoryErrorFromState,
+  getCategoryLoadingFromState,
+  getGategoryProductsFromState,
   setReset,
 } from "../Redux/Slices/categoriesSlice/categoriesSlice";
 import { useAppDispatch, useAppSelector } from "../Redux/store/store";
@@ -14,19 +17,20 @@ function CategoryById() {
   const { id } = useParams() as any;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const categoryProducts = useAppSelector(
-    (state) => state.categories.categoryProducts
-  );
-  const error = useAppSelector((state) => state.categories.error);
-  const loading = useAppSelector((state) => state.categories.loading);
+  const categoryProducts = useAppSelector(getGategoryProductsFromState);
+  const error = useAppSelector(getCategoryErrorFromState);
+  const loading = useAppSelector(getCategoryLoadingFromState);
 
   useEffect(() => {
     dispatch(getAsyncCategoryProducts(id));
+
+    return () => {
+      dispatch(setReset());
+    };
   }, [id]);
 
   const clearItems = () => {
     navigate("/");
-    dispatch(setReset());
   };
 
   return (

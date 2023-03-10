@@ -8,19 +8,28 @@ import {
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../Redux/store/store";
-import { getAllAsyncCategories } from "../../../../Redux/Slices/categoriesSlice/categoriesSlice";
+import {
+  getAllAsyncCategories,
+  getCategoriesFromState,
+} from "../../../../Redux/Slices/categoriesSlice/categoriesSlice";
 import Typography from "@mui/material/Typography";
 import { CustomLink } from "../../../../Styles";
 type Anchor = "left";
 
 function MenuDrawer() {
-  const categories = useAppSelector((state) => state.categories.categories);
+  const categories = useAppSelector(getCategoriesFromState);
   const dispatch = useAppDispatch();
   const [state, setState] = useState({
     left: false,
   });
+
+  useEffect(() => {
+    if (!categories) {
+      dispatch(getAllAsyncCategories());
+    }
+  }, []);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -33,7 +42,6 @@ function MenuDrawer() {
         return;
       }
       setState({ ...state, [anchor]: open });
-      dispatch(getAllAsyncCategories());
     };
 
   const list = (anchor: Anchor) => (

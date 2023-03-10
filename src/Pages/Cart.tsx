@@ -3,10 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../Redux/store/store";
 import CartItem from "../Components/CartItem";
-import { totalCount, totalQuantity } from "../Redux/Slices/cartSlice/cartSlice";
+import {
+  getCartFromState,
+  totalCount,
+  totalQuantity,
+} from "../Redux/Slices/cartSlice/cartSlice";
 
 function Cart() {
-  const cart = useAppSelector((state) => state.cart.cart);
+  const cart = useAppSelector(getCartFromState);
   const total = useAppSelector(totalCount);
   const itemsQuantity = useAppSelector(totalQuantity);
   const navigate = useNavigate();
